@@ -3,6 +3,8 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+  // npm run start:dev -- para iniciar el servidor
+  // le cambiamos a 3001 solo para probar
+  await app.listen(3001);
 }
 bootstrap();
