@@ -46,7 +46,7 @@ export class HttpJuegoController {
     }
 
     // clase 09/07/2020
-    
+
     @Get('parametros-consulta')
     parametrosConsulta(
         @Query() parametrosDeConsulta
