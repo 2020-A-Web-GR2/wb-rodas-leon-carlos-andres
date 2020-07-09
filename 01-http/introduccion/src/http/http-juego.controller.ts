@@ -1,4 +1,4 @@
-import {BadRequestException, Controller, Delete, Get, Header, HttpCode, Param, Post} from '@nestjs/common';
+import {BadRequestException, Controller, Delete, Get, Header, HttpCode, Param, Post, Query} from '@nestjs/common';
 
 // http://localhost:3001/juegos-http
 @Controller('juegos-http')
@@ -42,7 +42,15 @@ export class HttpJuegoController {
         } else {
             return edad + altura;
         }
+    }
 
+    // clase 09/07/2020
+    @Get('parametros-consulta')
+    parametrosConsulta(
+        @Query() parametrosDeConsulta
+    ) {
+        console.log('parametrosDeConsulta', parametrosDeConsulta);
+        return '>=)';
     }
 
 }
