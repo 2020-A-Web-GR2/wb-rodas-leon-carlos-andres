@@ -8,7 +8,7 @@ import {
     HttpCode,
     Param,
     Post,
-    Query
+    Query, Req, Res
 } from '@nestjs/common';
 import {MascotaCreateDto} from "./dto/mascota.create-dto";
 import {validate, ValidationError} from "class-validator";
@@ -107,10 +107,20 @@ export class HttpJuegoController {
     // 1 Guardar Cookie Insegura
     @Get('guardarCookieInsegura')
     async guardarCookieInsegura(
-        @Query() parametrosConsulta
+        @Query() parametrosConsulta,
+        @Req() req, // request
+        @Res() res // response
     ) {
-
+        res.cookie(
+            'galletaInsegura', // nombre
+            'Tengo hambre', // valor
+        );
+        const mensaje = {
+            mensaje: 'ok'
+        };
+        res.send(mensaje);
     }
+
     // 2 Guardar Cookie Segura
     // 3 Mostrar Cookies
 
