@@ -146,6 +146,23 @@ export class HttpJuegoController {
     mostrarCookies(
         @Req() req
     ) {
-        return req.cookies;
+        const mensaje = {
+            sinFimar: req.cookies,
+            firmadas: req.signedCookies
+        }
+        return mensaje;
     }
+
+    // Cookie firmada
+    @Get('guardarCookieFirmada')
+    public guardarCookieFirmada(
+        @Res() res
+    ) {
+        res.cookie('firmada', 'poliburguer', {signed: true});
+        const mensaje = {
+            mensaje: 'ok'
+        };
+        res.send(mensaje);
+    }
+
 }
