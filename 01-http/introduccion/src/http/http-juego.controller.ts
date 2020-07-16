@@ -122,6 +122,30 @@ export class HttpJuegoController {
     }
 
     // 2 Guardar Cookie Segura
-    // 3 Mostrar Cookies
+    @Get('guardarCookieSegura')
+    guardarCookieSegura(
+        @Query() parametrosConsulta,
+        @Req() req, // request
+        @Res() res // response
+    ) {
+        res.cookie(
+            'galletaSegura', // nombre
+            'web >:V', // valor
+            {
+                secure: true,
+            }
+        );
+        const mensaje = {
+            mensaje: 'ok'
+        };
+        res.send(mensaje);
+    }
 
+    // 3 Mostrar Cookies
+    @Get('mostrarCookies')
+    mostrarCookies(
+        @Req() req
+    ) {
+        return req.cookies;
+    }
 }
