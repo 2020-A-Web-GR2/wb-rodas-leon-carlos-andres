@@ -122,6 +122,47 @@ export class HttpJuegoController {
     }
 
     // 2 Guardar Cookie Segura
+    @Get('guardarCookieSegura')
+    guardarCookieSegura(
+        @Query() parametrosConsulta,
+        @Req() req, // request
+        @Res() res // response
+    ) {
+        res.cookie(
+            'galletaSegura', // nombre
+            'web >:V', // valor
+            {
+                secure: true,
+            }
+        );
+        const mensaje = {
+            mensaje: 'ok'
+        };
+        res.send(mensaje);
+    }
+
     // 3 Mostrar Cookies
+    @Get('mostrarCookies')
+    mostrarCookies(
+        @Req() req
+    ) {
+        const mensaje = {
+            sinFimar: req.cookies,
+            firmadas: req.signedCookies
+        }
+        return mensaje;
+    }
+
+    // Cookie firmada
+    @Get('guardarCookieFirmada')
+    public guardarCookieFirmada(
+        @Res() res
+    ) {
+        res.cookie('firmada', 'poliburguer', {signed: true});
+        const mensaje = {
+            mensaje: 'ok'
+        };
+        res.send(mensaje);
+    }
 
 }
