@@ -9,6 +9,6 @@ import {CalcController} from "./calc.controller";
     providers: []
 })
 
-export class HttpJuegoModule {
+export class CalcModule {
 
 }
