@@ -10,6 +10,7 @@ import { DividirCalcDto } from './dto/dividir.calc-dto';
 export class CalcController {
 
     // Cookie Insegura
+    // http://localhost:3002/calc/guardarCookieInsegura
     @Get("guardarCookieInsegura")
     guardarCookieInsegura(
         @Query() query,
@@ -33,6 +34,7 @@ export class CalcController {
     }
 
     // Sumar n1 + n2
+    // http://localhost:3002/calc/sumar/7
     @Get('sumar/:n2')
     @HttpCode(200)
     sumarGet(
@@ -51,7 +53,29 @@ export class CalcController {
         }else {
             return "No está registrado"
         }
+    }
 
+    // Restar n1 - n2
+    //
+    @Put('restar')
+    @HttpCode(201)
+    restarPut(
+        @Body() body,
+        @Query() query,
+        @Req() req
+    ){
+        const validarNombreUsuario = req.cookies["nombre usuario"]
+
+        if (validarNombreUsuario) {
+            const validarN1yN2 = body.n1 && query.n2 && !isNaN(body.n1) && !isNaN(query.n2)
+            if (validarN1yN2) {
+                return body.n1 - Number(query.n2)
+            } else {
+                throw new BadRequestException('Datos incorrectos')
+            }
+        } else {
+            return "No está registrado"
+        }
     }
 
 }
