@@ -1,5 +1,14 @@
-import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, Index, PrimaryGeneratedColumn} from 'typeorm';
 
+@Index([
+    'nombre',
+    'apellido',
+    'cedula',
+    'fechaNacimiento' //Nombres de las propiedades en la clase
+])
+@Index(
+    ['nombre', 'apellido', 'cedula'],
+    {unique: true }) // Indice compuesto - para que no tengan lo mismo varios usuarios
 @Entity('epn_usuario') // nombre tabla usuario
 export class UsuarioEntity{
     @PrimaryGeneratedColumn({
@@ -33,4 +42,26 @@ export class UsuarioEntity{
     })
     cedula: string
 
+    @Column({
+        name: 'sueldo',
+        nullable: true,
+        type: 'decimal',
+        precision: 10, // 1000000000.
+        scale: 4 // .0001
+    })
+    sueldo?: number;
+
+    @Column({
+        name: 'fecha_nacimiento',
+        nullable: true,
+        type: 'date'
+    })
+    fechaNacimiento?: string;
+
+    @Column({
+        name: 'fecha_hora_nacimiento',
+        nullable: true,
+        type: 'datetime'
+    })
+    fechaHoraNacimiento?: string;
 }
