@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put} from '@nestjs/common';
 
 @Controller('usuario')
 export class UsuarioController {
@@ -63,6 +63,29 @@ export class UsuarioController {
     // PUT http://localhost:3001/mascota/1 (BODY) {"nombre":"panda"}
     // Eliminar Uno
     // DELETE http://localhost:3001/mascota/1
+
+    @Put(':id')
+    editarUno(
+        @Param() parametrosRuta,
+        @Body() parametrosCuerpo
+    ) {
+        const indice = this.arregloUsuarios.findIndex(
+            (usuario) => usuario.id === Number(parametrosRuta.id)
+        );
+        this.arregloUsuarios[indice].nombre = parametrosCuerpo.nombre;
+        return this.arregloUsuarios[indice];
+    }
+
+    @Delete(':id')
+    eliminarUno(
+        @Param() parametrosRuta
+    ) {
+        const indice = this.arregloUsuarios.findIndex(
+            (usuario) => usuario.id === Number(parametrosRuta.id)
+        );
+        this.arregloUsuarios.splice(indice, 1);
+        return this.arregloUsuarios[indice];
+    }
 
 
 }
