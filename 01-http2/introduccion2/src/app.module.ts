@@ -5,12 +5,18 @@ import {HttpJuegoModule} from './http/http-juego.module';
 import {UsuarioModule} from './usuario/usuario.module';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {UsuarioEntity} from './usuario/usuario.entity';
+import {MascotaModule} from "./mascota/mascota.module";
+import {VacunaModule} from "./vacuna/vacuna.module";
+import {VacunaEntity} from "./vacuna/vacuna.entity";
+import {MascotaEntity} from "./mascota/mascota.entity";
 
 @Module({
   imports: [
     // Aqui otros modulos
     HttpJuegoModule,
     UsuarioModule,
+    MascotaModule,
+    VacunaModule,
     TypeOrmModule
         .forRoot({
           name: 'default', // nombre conexión
@@ -21,7 +27,9 @@ import {UsuarioEntity} from './usuario/usuario.entity';
           password: '', // password
           database: 'ejemplo', //  Base de Datos
           entities: [  // TODAS LAS ENTIDADES
-            UsuarioEntity
+            UsuarioEntity,
+            MascotaEntity,
+            VacunaEntity
           ],
           synchronize: true, // Actualiza el esquema de la base de datos
           dropSchema: false, // Eliminar Datos y el Esquema de base de datos
