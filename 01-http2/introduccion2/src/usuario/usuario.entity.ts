@@ -1,4 +1,6 @@
 import {Column, Entity, Index, PrimaryGeneratedColumn} from 'typeorm';
+import {OneToMany} from "typeorm/index";
+import {MascotaEntity} from "../mascota/mascota.entity";
 
 @Index([
     'nombre',
@@ -64,4 +66,13 @@ export class UsuarioEntity{
         type: 'datetime'
     })
     fechaHoraNacimiento?: string;
+
+    // Relaciones
+
+    @OneToMany(
+        type => MascotaEntity,
+        mascota => mascota.usuario
+    )
+    mascotas: MascotaEntity[]
+
 }
