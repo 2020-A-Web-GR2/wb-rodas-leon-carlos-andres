@@ -8,165 +8,199 @@ import {
     Param,
     Post,
     Put
-} from '@nestjs/common';
+} from "@nestjs/common";
 import {UsuarioService} from "./usuario.service";
-import {tryCatch} from "rxjs/internal-compatibility";
+import {UsuarioCreateDto} from "./dto/usuario.create-dto";
+import {validate, ValidationError} from "class-validator";
+import {UsuarioUpdateDto} from "./dto/usuario.update-dto";
 
 @Controller('usuario')
 export class UsuarioController {
-    public arregloUsuarios = [
+
+    arregloUsuarios = [
         {
             id: 1,
-            nombre: 'Adrian'
+            nombre: "Carlos",
         },
         {
             id: 2,
-            nombre: 'Vicente'
+            nombre: "Vicente"
         },
         {
             id: 3,
-            nombre: 'Wendy'
+            nombre: "wendy"
         }
     ]
-    public idActual = 3;
+    idActual = 3
 
-    constructor( // Inyección de dependencias
+
+    constructor(
         private readonly _usuarioService: UsuarioService
     ) {
-
     }
+
 
     @Get()
     async mostrarTodos() {
-        try{
-            const respuesta = await this._usuarioService.buscarTodos();
-            return respuesta;
-        } catch (e) {
-            console.error(e)
-            throw new InternalServerErrorException({
-                mensaje: 'Error del servidor',
-                })
-        }
-
-        //return this.arregloUsuarios
-    }
-
-    @Post()
-    async crearUno(
-        @Body() parametrosCuerpo
-    ) {
-
         try {
-            // Validación del CREATE DTO - DEBER
-
-            const respuesta = await this._usuarioService.crearUno(parametrosCuerpo)
+            const respuesta = await this._usuarioService.buscarTodos()
             return respuesta
         } catch (e) {
             console.error(e)
+            throw new InternalServerErrorException({
+                mensaje: 'Error del servicio',
+            })
+        }
+    }
+
+
+    @Post()
+    async crearUno(
+        @Body() body
+    ) {
+        try {
+            const limite = 9999999999.9999
+            if (Number(body.sueldo) > limite) {
+                throw new BadRequestException({
+                    mensaje: 'El sueldo es más grande de lo permitido'
+                });
+            } else {
+                const usuarioValidado = new UsuarioCreateDto();
+                usuarioValidado.nombre = body.nombre;
+                usuarioValidado.apellido = body.apellido;
+                usuarioValidado.cedula = body.cedula;
+                usuarioValidado.sueldo = body.sueldo;
+                usuarioValidado.fechaNacimiento = body.fechaNacimiento;
+                usuarioValidado.fechaHoraNacimiento = body.fechaHoraNacimiento;
+
+                const errores: ValidationError[] = await validate(usuarioValidado)
+
+                if (errores.length > 0) {
+                    console.error('Errores: ', errores);
+                    throw new BadRequestException({
+                        mensaje: 'Error en el formato de los datos'
+                    });
+                } else {
+                    try {
+                        const respuesta = await this._usuarioService.crearUno(body);
+                        return respuesta;
+                    } catch (e) {
+                        throw new InternalServerErrorException({
+                            mensaje: 'Error del servicio',
+                        });
+                    }
+                }
+            }
+
+        } catch (e) {
+            console.error(e)
             throw new BadRequestException({
-               mensaje: 'Error validando datos'
+                mensaje: 'Error al validar datos'
             });
         }
-        /*const nuevoUsuario = {
-            id: this.idActual + 1,
-            nombre: parametrosCuerpo.nombre
-        };
-        this.arregloUsuarios.push(nuevoUsuario);
-        this.idActual = this.idActual + 1;
-        return nuevoUsuario;*/
     }
 
     @Get(':id')
     async verUno(
-        @Param() parametrosRuta
-    ){
-        let respuesta;
-        try{
-            respuesta = await this._usuarioService.buscarUno(Number(parametrosRuta.id));
+        @Param() param
+    ) {
+        let respuesta
+        try {
+            respuesta = await this._usuarioService.buscarUno(Number(param.id))
         } catch (e) {
             console.error(e)
-            throw new InternalServerErrorException({
-                mensaje: 'Error del servidor',
-            })
+            throw new BadRequestException({
+                mensaje: 'Error validando datos'
+            });
         }
+
         if (respuesta) {
-            return respuesta;
+            return respuesta
         } else {
-            throw new NotFoundException({
+            throw  new NotFoundException({
                 mensaje: 'No existen registros'
-            })
+            });
         }
-
-        /*const indice = this.arregloUsuarios.findIndex(
-            // (usuario) => usuario.id === Number(parametrosRuta.id)
-            (usuario) => usuario.id === Number(parametrosRuta.id)
-        )
-        return this.arregloUsuarios[indice];*/
-
     }
 
-    // XML <usuario><nombre>ADRIAN</nombre></usuario>
-    // JSON {"nombre":"ADRIAN"}
-    // RESTful - JSON
-    // http://localhost:3001/
-    // RESTFUL MASCOTA
-    // Ver Todos
-    // GET http://localhost:3001/mascota
-    // Ver Uno
-    // GET http://localhost:3001/mascota/1
-    // Crear Uno
-    // POST http://localhost:3001/mascota (BODY) {"nombre":"cachetes"}
-    // Editar Uno
-    // PUT http://localhost:3001/mascota/1 (BODY) {"nombre":"panda"}
-    // Eliminar Uno
-    // DELETE http://localhost:3001/mascota/1
 
     @Put(':id')
     async editarUno(
-        @Param() parametrosRuta,
-        @Body() parametrosCuerpo
+        @Param() paramRuta,
+        @Body() paramBody,
     ) {
-        const id = Number(parametrosRuta.id);
-        const usuarioEditado = parametrosCuerpo;
-        usuarioEditado.id = id;
-        try {
-            const respuesta = await this._usuarioService.editarUno(usuarioEditado);
-            return respuesta
-        } catch (e) {
-            console.error(e);
-            throw new InternalServerErrorException({
-                mensaje: 'Error del servidor'
-            })
-        }
 
-        /*const indice = this.arregloUsuarios.findIndex(
-            (usuario) => usuario.id === Number(parametrosRuta.id)
-        );
-        this.arregloUsuarios[indice].nombre = parametrosCuerpo.nombre;
-        return this.arregloUsuarios[indice];*/
+        try {
+            const limiteEditar = 9999999999.9999
+            if (Number(paramBody.sueldo) > limiteEditar) {
+                throw new BadRequestException({
+                    mensaje: 'El sueldo es más grande de lo permitido'
+                });
+            } else {
+
+                const id = Number(paramRuta.id);
+                const usuarioValidado = new UsuarioUpdateDto();
+
+                usuarioValidado.id = id;
+                usuarioValidado.nombre = paramBody.nombre;
+                usuarioValidado.apellido = paramBody.apellido;
+                usuarioValidado.cedula = paramBody.cedula;
+                usuarioValidado.sueldo = paramBody.sueldo;
+                usuarioValidado.fechaNacimiento = paramBody.fechaNacimiento;
+                usuarioValidado.fechaHoraNacimiento = paramBody.fechaHoraNacimiento;
+
+                // crear la instancia del dto
+                const errores: ValidationError[] = await validate(usuarioValidado);
+
+                if (errores.length > 0) {
+                    console.error('Errores: ', errores);
+                    throw new BadRequestException({
+                        mensaje: 'Error en el formato de los datos'
+                    });
+                } else {
+                    try {
+                        const usuarioEditado = paramBody
+                        usuarioEditado.id = id
+                        //console.log(usuarioEditado)
+                        const respuesta = await this._usuarioService.editarUno(usuarioEditado);
+                        return respuesta;
+                    } catch (e) {
+                        throw new InternalServerErrorException({
+                            mensaje: 'Error del servicio',
+                        });
+                    }
+                }
+            }
+
+        } catch (e) {
+            console.error(e)
+            throw new BadRequestException({
+                mensaje: 'Error al validar datos'
+            });
+        }
     }
+
 
     @Delete(':id')
     async eliminarUno(
-        @Param() parametrosRuta
+        @Param()
+            paramRuta
     ) {
-        const id = Number(parametrosRuta.id);
-        try{
-            const respuesta = await this._usuarioService.eliminarUno(id);
-            return {
-                mensaje: 'Registro con id ' + id + ' eliminado'
-            }
-        } catch (e) {
-            throw new InternalServerErrorException({
-                mensaje: 'Error del servidor'
-            })
-        }
 
-        /*const indice = this.arregloUsuarios.findIndex(
-            (usuario) => usuario.id === Number(parametrosRuta.id)
-        );
-        this.arregloUsuarios.splice(indice, 1);
-        return this.arregloUsuarios[indice];*/
+        const id = Number(paramRuta.id)
+
+        try {
+            const respuesta = await this._usuarioService.eliminarUno(id)
+            return {
+                mensaje: 'Registro con id ' + id + ' eliminado.'
+            };
+
+        } catch (e) {
+            console.error(e)
+            throw new BadRequestException({
+                mensaje: 'Error del servidor'
+            });
+        }
     }
 
 }

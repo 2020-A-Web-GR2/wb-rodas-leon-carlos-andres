@@ -1,5 +1,4 @@
-import {Column, Entity, Index, PrimaryGeneratedColumn} from 'typeorm';
-import {OneToMany} from "typeorm/index";
+import {Column, Entity, Index, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
 import {MascotaEntity} from "../mascota/mascota.entity";
 
 @Index([
