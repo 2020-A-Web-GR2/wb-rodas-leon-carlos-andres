@@ -2,6 +2,7 @@ import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {MascotaEntity} from "./mascota.entity";
 import {Repository} from "typeorm/index";
+import { UsuarioEntity } from '../usuario/usuario.entity';
 
 @Injectable()
 export class MascotaService{

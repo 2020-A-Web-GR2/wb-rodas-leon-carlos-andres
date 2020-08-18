@@ -2,6 +2,7 @@ import {Injectable} from '@nestjs/common';
 import {Repository} from "typeorm";
 import {InjectRepository} from "@nestjs/typeorm";
 import {UsuarioEntity} from "./usuario.entity";
+
 // 1 Controlador
 // 2 Servicio
 // 3 Modulo
