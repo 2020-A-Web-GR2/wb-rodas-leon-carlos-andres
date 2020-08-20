@@ -17,7 +17,7 @@ export class MascotaEntity{
         type => UsuarioEntity,
         usuario => usuario.mascotas
     )
-    usuario: UsuarioEntity[]
+    usuario: UsuarioEntity
 
     @OneToMany(
         type => VacunaEntity,
