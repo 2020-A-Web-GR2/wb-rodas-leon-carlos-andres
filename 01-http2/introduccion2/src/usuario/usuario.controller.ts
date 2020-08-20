@@ -7,7 +7,7 @@ import {
     InternalServerErrorException, NotFoundException,
     Param,
     Post,
-    Put
+    Put, Res,
 } from '@nestjs/common';
 import {UsuarioService} from './usuario.service';
 import {MascotaService} from '../mascota/mascota.service';
@@ -195,7 +195,20 @@ export class UsuarioController {
             })
         }
 
+    }
 
+    // npm install ejs
+    @Get('vista/usuario')
+    vistaUsuario(
+        @Res() res
+    ){
+        const nombreControlador = 'Carlos';
+        res.render(
+            'ejemplo',
+            {
+                nombre: nombreControlador,
+            }
+        )
     }
 
 
