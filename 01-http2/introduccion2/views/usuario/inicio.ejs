@@ -21,6 +21,7 @@
     <% } ) %>
 </ul>
 
+<a href="/usuario/vista/crear"><button>Crear</button></a>
 
 <table>
     <!-- Table Row -->
@@ -29,13 +30,20 @@
         <th>Nombre</th>
         <th>Apellido</th>
         <th>Cedula</th>
+        <th>Acciones</th>
     </tr>
     <tr>
-        <!-- Table Data -->
-        <td>Adrian</td>
-        <td>Vicente</td>
-        <td>1745258589</td>
+    <% arregloNumeros.forEach((objeto)=> {%>
+        <td><%= objeto.nombre %></td>
+        <td><%= objeto.apellido %></td>
+        <td><%= objeto.cedula %></td>
+        <td>
+            <button>Ver</button>
+            <button>Editar</button>
+            <button>Eliminar</button>
+        </td>
     </tr>
+    <% } ) %>
 </table>
 
 <%- include('../compartido/funcionalidad-general/funcionalidad-general-component') %>
