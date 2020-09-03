@@ -1,8 +1,41 @@
 <%- include('../compartido/estilos-generales/estilos-generales-component') %>
 <%- include('../compartido/menu/menu-component') %>
 
-<h1>Inicio</h1>
+<!-- "=" esto sirve para usar JS dentro de HTML-->
+<p><%= "Hola" %></p>
+<p><%= 15 %></p>
 
-<button onclick="mensajeAlertar()">ALERTAR</button>
+<!-- "< % % >" -->
+<% const adrian = {nombre: "Adrian", apellido: "Eguez", cedula: "17"}%>
+<% const numero = 25 %>
+<% const mensaje = "" %>
+<p><%= adrian.nombre %></p> <p><%= adrian.apellido %></p>
+<p><%= numero %></p>
+<p><%= mensaje %></p>
+
+<!-- Para iterar arreglos -->
+<% const arregloNumeros = [1,2,3,4,5] %>
+<ul>
+    <% arregloNumeros.forEach( (objeto)=>{ %>
+    <li><%= objeto %></li>
+    <% } ) %>
+</ul>
+
+
+<table>
+    <!-- Table Row -->
+    <tr>
+        <!-- Table Header -->
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Cedula</th>
+    </tr>
+    <tr>
+        <!-- Table Data -->
+        <td>Adrian</td>
+        <td>Vicente</td>
+        <td>1745258589</td>
+    </tr>
+</table>
 
 <%- include('../compartido/funcionalidad-general/funcionalidad-general-component') %>
