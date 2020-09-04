@@ -308,6 +308,21 @@ export class UsuarioController {
         }
     }
 
+    @Post('eliminarDesdeVista/:id')
+    async eliminarDesdeVista(
+        @Param() parametrosRuta,
+        @Res() res
+    ) {
+        try {
+            const id = Number(parametrosRuta.id);
+            await this._usuarioService.eliminarUno(id)
+            return res.redirect('/usuario/vista/inicio?mensaje=Usuario eliminado')
+        } catch (error) {
+            console.log(error);
+            return res.redirect('/usuario/vista/inicio?error=Error eliminando usuario')
+        }
+    }
+
     // XML <usuario><nombre>ADRIAN</nombre></usuario>
     // JSON {"nombre":"ADRIAN"}
     // RESTful - JSON
