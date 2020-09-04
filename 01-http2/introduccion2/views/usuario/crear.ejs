@@ -3,20 +3,27 @@
 
 <h1>Crear Usuario</h1>
 
-<form action="/usuario/crearDesdeVista" method="post">
+<% if(error != undefined) {%>
+    <p>MENSAJE DE ERROR: <%= error %></p>
+<% }%>
+
+<form action="/usuario/crearDesdeVista"
+      method="POST">
+    <% const existeNombre = typeof nombre !== 'undefined' %>
     <label for="nombreID">Nombre:</label>
-    <input id="nombreID" type="text" name="nombre">
+    <input id="nombreID" type="text" name="nombre" value="<%= existeNombre ? nombre : '' %>">
     <br>
+    <% const existeApellido = typeof apellido !== 'undefined' %>
     <label for="apellidoID">Apellido:</label>
-    <input id="apellidoID" type="text" name="apellido">
+    <input id="apellidoID" type="text" name="apellido" value="<%= existeApellido ? apellido : '' %>">
     <br>
+    <% const existeCedula = typeof cedula !== 'undefined' %>
     <label for="cedulaID">Cedula:</label>
-    <input id="cedulaID" type="text" name="cedula">
+    <input id="cedulaID" type="text" name="cedula" value="<%= existeCedula ? cedula : '' %>">
     <br>
     <button type="submit">SUBMIT</button>
     <button type="reset">RESET</button>
     <button type="button">BUTTON</button>
-
 </form>
 
 <!-- Esto es un ejemplo para hacer consultas en google -->

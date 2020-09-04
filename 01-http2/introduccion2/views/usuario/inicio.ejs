@@ -1,49 +1,52 @@
 <%- include('../compartido/estilos-generales/estilos-generales-component') %>
 <%- include('../compartido/menu/menu-component') %>
-
-<!-- "=" esto sirve para usar JS dentro de HTML-->
+<!-- usuario/inicio.ejs -->
+<!-- "=" -->
 <p><%= "Hola" %></p>
 <p><%= 15 %></p>
-
-<!-- "< % % >" -->
-<% const adrian = {nombre: "Adrian", apellido: "Eguez", cedula: "17"}%>
+<!-- "< % % >"-->
+<% const adrian = {nombre: "Adrian", apellido: "Eguez", cedula: "17"} %>
 <% const numero = 25 %>
-<% const mensaje = "" %>
-<p><%= adrian.nombre %></p> <p><%= adrian.apellido %></p>
+<% const mensaje = "Hola" %>
+<p><%= adrian.nombre %> <%= adrian.apellido %></p>
 <p><%= numero %></p>
 <p><%= mensaje %></p>
-
-<!-- Para iterar arreglos -->
-<% const arregloNumeros = [1,2,3,4,5] %>
+<% const arregloNumeros = [1, 2, 3, 4, 5] %>
 <ul>
     <% arregloNumeros.forEach( (objeto)=>{ %>
-    <li><%= objeto %></li>
+        <li><%= objeto %></li>
     <% } ) %>
 </ul>
 
-<a href="/usuario/vista/crear"><button>Crear</button></a>
+<a href="/usuario/vista/crear">
+    <button>Crear</button>
+</a>
 
 <table>
-    <!-- Table Row -->
+    <!--table row-->
     <tr>
-        <!-- Table Header -->
+        <!--table header-->
         <th>Nombre</th>
         <th>Apellido</th>
         <th>Cedula</th>
         <th>Acciones</th>
     </tr>
-    <tr>
-    <% arregloNumeros.forEach((objeto)=> {%>
-        <td><%= objeto.nombre %></td>
-        <td><%= objeto.apellido %></td>
-        <td><%= objeto.cedula %></td>
-        <td>
-            <button>Ver</button>
-            <button>Editar</button>
-            <button>Eliminar</button>
-        </td>
-    </tr>
+    <% arregloUsuarios.forEach( (objeto)=>{ %>
+        <tr>
+            <td><%= objeto.nombre %></td>
+            <td><%= objeto.apellido %></td>
+            <td><%= objeto.cedula %></td>
+            <td>
+                <button>Ver</button>
+                <button>Editar</button>
+                <form action="/usuario/eliminarDesdeVista/<%= objeto.id %>" method="post">
+                    <button type="submit">Eliminar</button>
+                </form>
+
+            </td>
+        </tr>
     <% } ) %>
+
 </table>
 
 <%- include('../compartido/funcionalidad-general/funcionalidad-general-component') %>
