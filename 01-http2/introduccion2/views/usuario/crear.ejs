@@ -1,35 +1,60 @@
 <%- include('../compartido/estilos-generales/estilos-generales-component') %>
 <%- include('../compartido/menu/menu-component') %>
 
-<h1>Crear Usuario</h1>
+<!-- usuario/crear.ejs-->
+<% const existeUsuario = typeof usuario != 'undefined'%>
 
-<% if(error != undefined) {%>
-    <p>MENSAJE DE ERROR: <%= error %></p>
-<% }%>
+<% let existeNombre = typeof nombre !== 'undefined' %>
+<% let existeApellido = typeof apellido !== 'undefined' %>
+<% let existeCedula = typeof cedula !== 'undefined' %>
 
-<form action="/usuario/crearDesdeVista"
+<h1> <%= existeUsuario ? 'Editar' : 'Crear'%> usuario</h1>
+<!-- Setear el nombre y apellido-->
+<%if(existeUsuario){%>
+    <% existeNombre = true %>
+    <% existeApellido = true %>
+    <% existeCedula = true %>
+    <% nombre = usuario.nombre %>
+    <% apellido = usuario.apellido %>
+    <% cedula = usuario.cedula %>
+<%}%>
+
+
+<% if(typeof error !== 'undefined') { %>
+    <p>MENSAJE ERROR: <%= error %></p>
+<% } %>
+
+<form action="<%= existeUsuario ? '/usuario/editarDesdeVista/' + usuario.id : '/usuario/crearDesdeVista' %>"
       method="POST">
-    <% const existeNombre = typeof nombre !== 'undefined' %>
+
     <label for="nombreID">Nombre:</label>
     <input id="nombreID" type="text" name="nombre" value="<%= existeNombre ? nombre : '' %>">
     <br>
-    <% const existeApellido = typeof apellido !== 'undefined' %>
+
     <label for="apellidoID">Apellido:</label>
     <input id="apellidoID" type="text" name="apellido" value="<%= existeApellido ? apellido : '' %>">
     <br>
-    <% const existeCedula = typeof cedula !== 'undefined' %>
+
     <label for="cedulaID">Cedula:</label>
-    <input id="cedulaID" type="text" name="cedula" value="<%= existeCedula ? cedula : '' %>">
+    <input id="cedulaID" type="text"
+    <% if(existeUsuario){%>
+           disabled
+            <%}%>
+           name="cedula"
+           value="<%= existeCedula ? cedula : '' %>">
     <br>
     <button type="submit">SUBMIT</button>
     <button type="reset">RESET</button>
     <button type="button">BUTTON</button>
+    <button>QUE TIPO SOY?</button>
+
+    <!--    <label for="query">Consulta:</label>-->
+    <!--    <input id="query" type="text" name="q">-->
+    <!--GET https://www.google.com?q=salchipapas -->
+    <!--    <label for="nombre">Nombre:</label>-->
+    <!--    <input id="nombre" type="text" name="nombre">-->
+    <!--GET https://www.google.com?q=salchipapas&nombre=Adrian -->
 </form>
 
-<!-- Esto es un ejemplo para hacer consultas en google -->
-<!--<form action="https://www.google.com" method="get">-->
-<!--    <label for="query">Consulta:</label>-->
-<!--    <input id="query" type="text" name="q">-->
-<!--</form>-->
 
 <%- include('../compartido/funcionalidad-general/funcionalidad-general-component') %>
