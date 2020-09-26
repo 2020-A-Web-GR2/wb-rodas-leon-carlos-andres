@@ -6,20 +6,12 @@ export class Contact {
     id: number;
 
     @Column()
-    firstName: string;
+    name: string;
 
     @Column()
-    lastName: string;
+    type: string;
 
     @Column()
-    email: string;
+    description: string;
 
-    @Column()
-    phone: string;
-
-    @Column()
-    city: string;
-
-    @Column()
-    country: string;
 }
