@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Contact } from './contact.entity';
+import { ContactEntity } from './contact.entity';
 import { UpdateResult, DeleteResult } from  'typeorm';
 
 @Injectable()
 export class ContactsService {
     constructor(
-        @InjectRepository(Contact)
-        private contactRepository: Repository<Contact>,
+        @InjectRepository(ContactEntity)
+        private contactRepository: Repository<ContactEntity>,
     ) {
     }
 
-    async findAll(): Promise<Contact[]> {
+    async findAll(): Promise<ContactEntity[]> {
         return await this.contactRepository.find();
     }
 
-    async create(contact: Contact): Promise<Contact> {
+    async create(contact: ContactEntity): Promise<ContactEntity> {
         return await this.contactRepository.save(contact);
     }
 
-    async update(contact: Contact): Promise<UpdateResult> {
+    async update(contact: ContactEntity): Promise<UpdateResult> {
         return await this.contactRepository.update(contact.id, contact);
     }
 

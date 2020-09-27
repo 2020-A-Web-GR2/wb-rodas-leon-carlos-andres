@@ -1,16 +1,36 @@
-<% const esSupervisor = roles.some((rol) => rol == 'Supervisor') %>
-<% const esAdministrador = roles.some((rol) => rol == 'Administrador') %>
+<html>
 
-<p>Bienvenido <%= usuario %></p>
+    <head>
+        <title>Home</title>
+        <h2>Home</h2>
+    </head>
 
-<% if(esSupervisor){ %>
-    <button>Supervisor</button>
-<% } %>
+    <body>
+        <% const esSupervisor = roles.some((rol) => rol == 'Supervisor') %>
+        <% const esAdministrador = roles.some((rol) => rol == 'Administrador') %>
 
-<% if(esAdministrador){ %>
-    <button>Administrador</button>
-<% } %>
+        <h3>Bienvenido <%= usuario %></h3>
 
-<a href="/logout">
-    <button>Logout</button>
-</a>
+        <% if(esSupervisor){ %>
+            <button>Permisos de: Supervisor</button>
+        <% } %>
+
+        <% if(esAdministrador){ %>
+            <p>Permisos de: Administrador</p>
+        <% } %>
+        <br>
+        <a href="/vista-entrenadores">
+            <button>Ver entrenadores</button>
+        </a>
+        <br>
+<!--        <a href="/logout">-->
+<!--            <button>Logout</button>-->
+<!--        </a>-->
+    </body>
+
+    <footer>
+        <%- include('../shared/footer') %>
+    </footer>
+
+</html>
+

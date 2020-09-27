@@ -3,12 +3,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ContactsModule } from './contacts/contacts.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import {ContactEntity} from "./contacts/contact.entity";
 
 
 
 @Module({
   imports: [
       ContactsModule,
+      ContactEntity,
       TypeOrmModule.forRoot({
           type: 'mysql',
           host: "localhost",
@@ -21,6 +23,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+      AppService,
+      ContactEntity,
+  ],
 })
 export class AppModule {}
