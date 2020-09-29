@@ -1,11 +1,51 @@
 <html>
 
     <head>
+        <%- include('../shared/funcionalidad-general') %>
         <title>Crear Entrenador</title>
-        <h2>Crear Entrenador</h2>
     </head>
 
     <body>
+
+    <% const existeEntrenador = typeof entrenador != "undefined" %>
+
+    <% let existeNombre = typeof name !== "undefined" %>
+    <% let existeTipo = typeof type !== "undefined" %>
+    <% let existeDescription = typeof description !== "undefined" %>
+
+    <h1><%= existeEntrenador ? "Editar" : "Crear"  %> Entrenador </h1>
+
+    <% if(existeEntrenador) { %>
+        <% existeNombre = true %>
+        <% existeTipo = true %>
+        <% existeDescription = true %>
+        <% nombre = entrenador.name %>
+        <% tipo = entrenador.type %>
+        <% description = entrenador.description %>
+    <% } %>
+
+    <% if(typeof error !== "undefined") {%>
+        <p>MENSAJE DE ERROR: <%= error %> </p>
+    <%  } %>
+
+    <form action="<%= existeEntrenador? '/entrenador/editarDesdeVista/' + entrenador.id : '/entrenador/crearDesdeVista'%>" method="POST">
+
+        <label for="nombreID">Nombre</label>
+        <input id="nombreID" type="text" name="name" value="<%= existeNombre? nombre : '' %>">
+        <br>
+
+        <label for="tipoID">Tipo</label>
+        <input id="tipoID" type="text" name="type" value="<%= existeTipo? tipo : '' %>">
+        <br>
+
+        <label for="descriptionID">Descripción</label>
+        <input id="descriptionID" type="text" name="description" value="<%= existeDescription? description : '' %>">
+        <br>
+
+        <button type="submit">SUBMIT</button>
+        <button type="reset">RESET</button>
+
+    </form>
 
     </body>
 

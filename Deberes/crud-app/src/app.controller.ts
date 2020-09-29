@@ -1,12 +1,10 @@
-import {Body, Controller, Get, Post, Query, Req, Res, Session} from '@nestjs/common';
+import {Body, Controller, Get, Post, Req, Res, Session} from '@nestjs/common';
 import { AppService } from './app.service';
-import {ContactEntity} from "./contacts/contact.entity";
 
 @Controller()
 export class AppController {
   constructor(
       private readonly appService: AppService,
-      private readonly _contactEntity: ContactEntity,
   ) {}
 
   @Get()
@@ -78,18 +76,18 @@ export class AppController {
     return response.redirect('login')
   }
 
-  @Get('/vista-entrenadores')
-  vistaEntrenadores(
-      @Res() res
-  ) {
-    return res.render('./entrenador/vista-entrenadores')
-  }
-
-  @Get('/crear-entrenador')
-  crearEntrenador(
-      @Res() res
-  ) {
-    return res.render('./entrenador/crear-entrenador')
-  }
+  // @Get('/vista-entrenadores')
+  // vistaEntrenadores(
+  //     @Res() res
+  // ) {
+  //   return res.render('./entrenador/vista-entrenadores')
+  // }
+  //
+  // @Get('/crear-entrenador')
+  // crearEntrenador(
+  //     @Res() res
+  // ) {
+  //   return res.render('./entrenador/crear-entrenador')
+  // }
 
 }

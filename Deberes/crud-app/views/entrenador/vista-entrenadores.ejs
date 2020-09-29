@@ -1,14 +1,48 @@
 <html>
 
     <head>
+        <%- include('../shared/funcionalidad-general') %>
         <title>Entrenadores</title>
         <h2>Entrenadores</h2>
     </head>
 
     <body>
-        <a href="/crear-entrenador">
+
+        <a href="/entrenador/vista/crear">
             <button>Crear Entrenador</button>
         </a>
+
+        <br><br>
+
+        <table>
+            <!-- table row -->
+            <tr>
+                <!-- table header -->
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Descripción</th>
+            </tr>
+
+
+            <% arregloEntrenador.forEach((entrenador) => { %>
+                <tr>
+                    <!-- table details -->
+                    <td><%= entrenador.name %></td>
+                    <td><%= entrenador.type %></td>
+                    <td><%= entrenador.description %></td>
+                    <td>
+                        <a href="/entrenador/vista/editar/<%= entrenador.id %>">
+                            <button>Editar</button>
+                        </a>
+                        <form action="/entrenador/vista/eliminar/<%= entrenador.id %>" method="POST">
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+
+        </table>
+
     </body>
 
     <footer>

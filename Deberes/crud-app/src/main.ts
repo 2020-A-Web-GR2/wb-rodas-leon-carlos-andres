@@ -13,7 +13,7 @@ async function bootstrap() {
 
   const secret = 'pokemon'
   app.set('view engine', 'ejs');
-  app.use(express.static('publico'))
+  app.use(express.static('public'))
   app.use(
       session({
         name: 'server-session-id',

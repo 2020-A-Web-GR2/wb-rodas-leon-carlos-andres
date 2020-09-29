@@ -180,7 +180,7 @@ export class ContactsController {
             throw new InternalServerErrorException("Error encontrando entrenadores")
         }
         if(resultadoEncontrado){
-            return res.render("entrenador/inicio",
+            return res.render("entrenador/vista-entrenadores",
                 {
                     arregloEntrenador: resultadoEncontrado,
                     parametrosConsulta: parametrosConsulta
@@ -201,15 +201,12 @@ export class ContactsController {
             return res.redirect("/login");
         }
         return res.render(
-            'entrenador/crear',
+            'entrenador/crear-entrenador',
             {
                 error: parametrosConsulta.error,
-                nombre: parametrosConsulta.nombre,
-                ruc: parametrosConsulta.ruc,
-                ubicacion: parametrosConsulta.ubicacion,
-                tipo: parametrosConsulta.tipo,
-                responsable: parametrosConsulta.responsable,
-                dinero: parametrosConsulta.dinero
+                name: parametrosConsulta.name,
+                type: parametrosConsulta.type,
+                description: parametrosConsulta.description,
             }
         )
     }
@@ -237,7 +234,7 @@ export class ContactsController {
         }
         if(entrenadorEncontrado){
             return res.render(
-                'entrenador/crear',
+                'entrenador/crear-entrenador',
                 {
                     error: parametrosConsulta.error,
                     entrenador: entrenadorEncontrado
@@ -355,7 +352,7 @@ export class ContactsController {
         }
         const contactUpdateDto = new ContactsUpdateDto();
         // Datos
-        // contactUpdateDto.id = id;
+        contactUpdateDto.id = id;
         contactUpdateDto.name = parametrosCuerpo.name;
         contactUpdateDto.type = parametrosCuerpo.type;
         contactUpdateDto.description = parametrosCuerpo.description;
@@ -371,11 +368,13 @@ export class ContactsController {
         newContact.description = contactCreateDto.description;
 
         return newContact;
+
     }
 
     crearInstanciaActualizar(contactUpdateDto: ContactsUpdateDto): ContactEntity{
         // Craer entrenador actualizar
         const actualizarContact = new ContactEntity();
+        actualizarContact.id = contactUpdateDto.id;
         actualizarContact.name = contactUpdateDto.name;
         actualizarContact.type = contactUpdateDto.type;
         actualizarContact.description = contactUpdateDto.description;

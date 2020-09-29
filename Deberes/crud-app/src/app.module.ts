@@ -18,6 +18,7 @@ import { ContactEntity } from "./contacts/contact.entity";
           database: 'examen2-crud',
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
           synchronize: true,
+          // dropSchema: true,
       }),
   ],
   controllers: [AppController],

@@ -38,10 +38,13 @@ export class ContactsService {
             consulta= {
                 where: [
                     {
-                        nombre: Like(`%${textoConsulta}%`)
+                        name: Like(`%${textoConsulta}%`)
                     },
                     {
-                        ruc: Like(`%${textoConsulta}%`)
+                        type: Like(`%${textoConsulta}%`)
+                    },
+                    {
+                        description: Like(`%${textoConsulta}%`)
                     }
                 ]
             }

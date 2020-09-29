@@ -1,6 +1,11 @@
-import { IsNotEmpty,  MaxLength, MinLength } from "class-validator";
+import {IsInt, IsNotEmpty, MaxLength, Min, MinLength} from "class-validator";
 
 export class ContactsUpdateDto {
+
+    @IsNotEmpty()
+    @IsInt()
+    @Min(0)
+    id: number;
 
     @IsNotEmpty()
     @MinLength(3)

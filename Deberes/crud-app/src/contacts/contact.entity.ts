@@ -1,17 +1,37 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity('Entrenador')
 export class ContactEntity {
-    @PrimaryGeneratedColumn()
+
+    @PrimaryGeneratedColumn({
+        unsigned: true,
+        comment: "Identifier",
+        name: "id_entrenador"
+    })
     id: number;
 
-    @Column()
+    @Column({
+        name: "name",
+        type: "varchar",
+        length: 45,
+        nullable: false,
+    })
     name: string;
 
-    @Column()
+    @Column({
+        name: "type",
+        type: "varchar",
+        length: 45,
+        nullable: false,
+    })
     type: string;
 
-    @Column()
+    @Column({
+        name: "description",
+        type: "varchar",
+        length: 100,
+        nullable: false,
+    })
     description: string;
 
 }
