@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import {FindManyOptions, Like, Repository} from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ContactEntity } from './contact.entity';
 import { UpdateResult, DeleteResult } from  'typeorm';
@@ -12,19 +12,53 @@ export class ContactsService {
     ) {
     }
 
-    async findAll(): Promise<ContactEntity[]> {
-        return await this.contactRepository.find();
+    // async findAll(): Promise<ContactEntity[]> {
+    //     return await this.contactRepository.find();
+    // }
+    //
+    // async create(contact: ContactEntity): Promise<ContactEntity> {
+    //     return await this.contactRepository.save(contact);
+    // }
+    //
+    // async update(contact: ContactEntity): Promise<UpdateResult> {
+    //     return await this.contactRepository.update(contact.id, contact);
+    // }
+    //
+    // async delete(id): Promise<DeleteResult> {
+    //     return await this.contactRepository.delete(id);
+    // }
+
+    crearUno(tienda: ContactEntity){
+        return this.contactRepository.save(tienda);
     }
 
-    async create(contact: ContactEntity): Promise<ContactEntity> {
-        return await this.contactRepository.save(contact);
+    buscarTodos(textoConsulta?: string){
+        let consulta: FindManyOptions<ContactEntity> = {};
+        if(textoConsulta){
+            consulta= {
+                where: [
+                    {
+                        nombre: Like(`%${textoConsulta}%`)
+                    },
+                    {
+                        ruc: Like(`%${textoConsulta}%`)
+                    }
+                ]
+            }
+        }
+        return this.contactRepository.find(consulta);
     }
 
-    async update(contact: ContactEntity): Promise<UpdateResult> {
-        return await this.contactRepository.update(contact.id, contact);
+    buscarUno(id: number){
+        return this.contactRepository.findOne(id);
     }
 
-    async delete(id): Promise<DeleteResult> {
-        return await this.contactRepository.delete(id);
+    editarUno(tienda: ContactEntity){
+        return this.contactRepository.save(tienda);
     }
+
+    eliminarUno(id: number){
+        return this.contactRepository.delete(id);
+    }
+
 }
